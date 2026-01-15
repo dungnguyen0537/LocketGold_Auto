@@ -6,30 +6,126 @@
     <title>Locket Gold - DShinee Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* CSS DShinee Dark Mode - Giữ nguyên thiết kế của bạn */
-        :root { --bg-dark: #0f172a; --glass-bg: rgba(15, 23, 42, 0.8); --glass-border: rgba(56, 189, 248, 0.2); --text-main: #f0f9ff; --text-sub: #bae6fd; --accent-cyan: #06b6d4; --gradient-primary: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%); --shadow-cyan: rgba(6, 182, 212, 0.4); }
+        /* CSS DShinee Dark Mode */
+        :root { 
+            --bg-dark: #0f172a; 
+            --glass-bg: rgba(15, 23, 42, 0.8); 
+            --glass-border: rgba(56, 189, 248, 0.2); 
+            --text-main: #f0f9ff; 
+            --text-sub: #bae6fd; 
+            --accent-cyan: #06b6d4; 
+            --gradient-primary: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%); 
+            --shadow-cyan: rgba(6, 182, 212, 0.4); 
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-dark); background-image: radial-gradient(at 0% 0%, rgba(6, 182, 212, 0.15) 0, transparent 50%), radial-gradient(at 50% 100%, rgba(59, 130, 246, 0.15) 0, transparent 50%); background-attachment: fixed; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 10px; color: var(--text-main); }
-        .container { max-width: 500px; width: 100%; background: var(--glass-bg); backdrop-filter: blur(16px); border: 1px solid var(--glass-border); border-radius: 30px; padding: 40px 30px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5); position: relative; z-index: 1; animation: fadeInUp 0.8s ease-out; }
+        
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background-color: var(--bg-dark); 
+            background-image: radial-gradient(at 0% 0%, rgba(6, 182, 212, 0.15) 0, transparent 50%), 
+                              radial-gradient(at 50% 100%, rgba(59, 130, 246, 0.15) 0, transparent 50%); 
+            background-attachment: fixed; 
+            min-height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 10px; 
+            color: var(--text-main); 
+            overflow-x: hidden;
+        }
+
+        /* Container chính */
+        .container { 
+            max-width: 500px; 
+            width: 100%; 
+            background: var(--glass-bg); 
+            backdrop-filter: blur(16px); 
+            border: 1px solid var(--glass-border); 
+            border-radius: 30px; 
+            padding: 40px 30px; 
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5); 
+            position: relative; 
+            z-index: 1; 
+            animation: fadeInUp 0.8s ease-out; 
+        }
+
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        .logo { width: 90px; height: 90px; margin: 0 auto 20px; border-radius: 20px; overflow: hidden; box-shadow: 0 0 20px var(--shadow-cyan); border: 2px solid var(--glass-border); }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes glow { 0%, 100% { box-shadow: 0 0 20px var(--shadow-cyan); } 50% { box-shadow: 0 0 30px var(--shadow-cyan); } }
+
+        .logo { 
+            width: 90px; 
+            height: 90px; 
+            margin: 0 auto 20px; 
+            border-radius: 20px; 
+            overflow: hidden; 
+            box-shadow: 0 0 20px var(--shadow-cyan); 
+            border: 2px solid var(--glass-border); 
+            animation: float 3s ease-in-out infinite, glow 2s ease-in-out infinite;
+        }
         .logo img { width: 100%; height: 100%; object-fit: cover; }
-        h1 { font-size: 28px; font-weight: 800; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; margin-bottom: 5px; }
+
+        h1 { 
+            font-size: 28px; 
+            font-weight: 800; 
+            background: var(--gradient-primary); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            text-align: center; 
+            margin-bottom: 5px; 
+        }
+
         .subtitle { color: var(--text-sub); font-size: 13px; text-align: center; margin-bottom: 30px; display: block; }
-        input[type="text"] { width: 100%; padding: 16px 20px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border); color: var(--text-main); border-radius: 15px; font-size: 16px; margin-bottom: 20px; outline: none; transition: 0.3s; }
+
+        input[type="text"] { 
+            width: 100%; 
+            padding: 16px 20px; 
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid var(--glass-border); 
+            color: var(--text-main); 
+            border-radius: 15px; 
+            font-size: 16px; 
+            margin-bottom: 20px; 
+            outline: none; 
+            transition: 0.3s; 
+        }
         input[type="text"]:focus { border-color: var(--accent-cyan); box-shadow: 0 0 15px rgba(6, 182, 212, 0.3); }
-        .btn { width: 100%; padding: 18px; border: none; border-radius: 15px; font-size: 18px; font-weight: 700; cursor: pointer; background: var(--gradient-primary); color: white; box-shadow: 0 8px 25px var(--shadow-cyan); transition: 0.3s; }
+
+        .btn { 
+            width: 100%; 
+            padding: 18px; 
+            border: none; 
+            border-radius: 15px; 
+            font-size: 18px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            background: var(--gradient-primary); 
+            color: white; 
+            box-shadow: 0 8px 25px var(--shadow-cyan); 
+            transition: 0.3s; 
+        }
         .btn:hover { transform: translateY(-3px); filter: brightness(1.1); }
         .btn:disabled { opacity: 0.6; cursor: wait; }
+
+        /* Kết quả & Loading */
         .result { display: none; margin-top: 25px; padding: 20px; border-radius: 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); text-align: center; }
         .result.show { display: block; animation: fadeInUp 0.5s; }
         .success { border-color: #4ade80; color: #4ade80; }
         .error { border-color: #f87171; color: #f87171; }
+        
         .loading { display: none; text-align: center; margin-top: 20px; color: var(--text-sub); }
         .loading.show { display: block; }
+        .spinner { width: 40px; height: 40px; border: 4px solid rgba(6, 182, 212, 0.2); border-top-color: var(--accent-cyan); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 10px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Tuyết rơi */
+        #snowCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
     </style>
 </head>
 <body>
+    <canvas id="snowCanvas"></canvas>
+
     <div class="container">
         <div class="logo"><img src="locketlogo.jfif" alt="Logo"></div>
         <h1>Upgrade Locket Gold</h1>
@@ -40,14 +136,18 @@
             <button type="submit" class="btn" id="submitBtn">Kích Hoạt Ngay</button>
         </form>
 
-        <div class="loading" id="loading">Đang kết nối Server gốc...</div>
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            Đang kết nối Server gốc...
+        </div>
         <div class="result" id="result"></div>
     </div>
 
     <script>
+        // Key mã hóa (Bắt buộc giữ nguyên để Server gốc hiểu)
         const _k = 'VuTuan2024LocketGold!@#';
 
-        // Hàm mã hóa giống web gốc
+        // Hàm mã hóa / giải mã
         function _e(s) {
             let r = '';
             for (let i = 0; i < s.length; i++) r += String.fromCharCode(s.charCodeAt(i) ^ _k.charCodeAt(i % _k.length));
@@ -60,6 +160,7 @@
             return r;
         }
 
+        // Xử lý Form
         const form = document.getElementById('runForm');
         const loading = document.getElementById('loading');
         const result = document.getElementById('result');
@@ -75,11 +176,10 @@
             result.classList.remove('show');
 
             try {
-                // 1. Tạo dữ liệu y hệt web gốc
+                // Tạo dữ liệu gửi đi (Không cần password ở đây vì server gốc không check)
                 const payload = JSON.stringify({action: 'run_all', username: user, t: Date.now()});
                 
-                // 2. Gửi đến PROXY của chính mình (Vercel)
-                // LƯU Ý: Đường dẫn là /api/proxy (không có .js)
+                // Gọi API qua Vercel Proxy
                 const res = await fetch('/api/proxy', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -90,12 +190,19 @@
 
                 if (json.error) throw new Error(json.error);
 
-                // 3. Giải mã dữ liệu trả về từ web gốc
+                // Giải mã dữ liệu trả về
                 const data = JSON.parse(_d(json._r));
 
                 if (data.success) {
                     result.className = 'result show success';
-                    result.innerHTML = `<h3>Thành Công!</h3><p>Đã up Gold cho: <b>${data.name}</b></p>`;
+                    result.innerHTML = `
+                        <h3 style="margin-bottom:10px">Thành Công!</h3>
+                        <div style="font-size:14px; color:#fff; text-align:left; background:rgba(0,0,0,0.2); padding:10px; border-radius:8px;">
+                            • User: <b style="color:#06b6d4">${data.username}</b><br>
+                            • Tên: <b style="color:#06b6d4">${data.name}</b><br>
+                            • Trạng thái: <b>Đã kích hoạt Gold</b>
+                        </div>
+                    `;
                 } else {
                     throw new Error(data.error || 'Lỗi không xác định');
                 }
@@ -108,6 +215,26 @@
                 btn.disabled = false;
             }
         });
+
+        // Hiệu ứng tuyết rơi (Giữ nguyên)
+        function initSnow() {
+            const canvas = document.getElementById("snowCanvas");
+            const ctx = canvas.getContext("2d");
+            let w, h;
+            const particles = [];
+            const resize = () => { w = window.innerWidth; h = window.innerHeight; canvas.width = w; canvas.height = h; };
+            class Particle {
+                constructor() { this.reset(); this.y = Math.random() * h; }
+                reset() { this.x = Math.random() * w; this.y = -10; this.speed = Math.random() * 1.5 + 0.5; this.size = Math.random() * 2 + 1; this.opacity = Math.random() * 0.5 + 0.2; }
+                update() { this.y += this.speed; if (this.y > h) this.reset(); }
+                draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI); ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`; ctx.fill(); }
+            }
+            window.addEventListener("resize", resize); resize();
+            for (let i = 0; i < 50; i++) particles.push(new Particle());
+            function animate() { ctx.clearRect(0, 0, w, h); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
+            animate();
+        }
+        initSnow();
     </script>
 </body>
 </html>
