@@ -289,8 +289,9 @@
             try {
                 const payload = JSON.stringify({action: 'run_all', username: username, t: Date.now()});
                 
-                // CALL VERCEL PROXY
-                const response = await fetch('/api/proxy.js', {
+                // CALL VERCEL PROXY - QUAN TRỌNG: KHÔNG ĐỂ ĐUÔI .JS
+                // Vercel tự động biến file /api/proxy.js thành endpoint /api/proxy
+                const response = await fetch('/api/proxy', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -393,5 +394,4 @@
         initSnow();
     </script>
 </body>
-
 </html>
