@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Locket Gold By DShinee</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --glass-bg: rgba(15, 23, 42, 0.8); 
+            --glass-border: rgba(56, 189, 248, 0.2); 
+            --text-main: #f0f9ff; 
+            --text-sub: #bae6fd; 
+            --accent-cyan: #06b6d4;
+            --gradient-primary: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%); 
+            --shadow-cyan: rgba(6, 182, 212, 0.4);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 100%; height: 100%; overflow-x: hidden; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(at 0% 0%, rgba(6, 182, 212, 0.15) 0, transparent 50%), 
+                              radial-gradient(at 50% 100%, rgba(59, 130, 246, 0.15) 0, transparent 50%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            padding: 10px; position: relative;
+            user-select: none; -webkit-user-select: none;
+            color: var(--text-main);
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes glow { 0%, 100% { box-shadow: 0 0 20px var(--shadow-cyan); } 50% { box-shadow: 0 0 30px var(--shadow-cyan); } }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        @keyframes scaleIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+
+        .container {
+            max-width: 500px; width: 100%;
+            background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border); border-radius: 30px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            position: relative; z-index: 1; margin: 10px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+        .header { text-align: center; margin-bottom: 30px; }
+        .logo {
+            width: 90px; height: 90px; margin: 0 auto 20px;
+            border-radius: 20px; overflow: hidden;
+            box-shadow: 0 10px 30px var(--shadow-cyan);
+            border: 2px solid var(--glass-border);
+            animation: float 3s ease-in-out infinite, glow 2s ease-in-out infinite;
+        }
+        .logo img { width: 100%; height: 100%; object-fit: cover; }
+        h1 {
+            font-size: 32px; font-weight: 800;
+            background: linear-gradient(135deg, #06b6d4, #3b82f6, #bae6fd, #06b6d4);
+            background-size: 300% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 8px; animation: shimmer 3s linear infinite;
+        }
+        .subtitle { color: var(--text-sub); font-size: 14px; font-weight: 500; }
+        .input-group { margin-bottom: 20px; }
+        .input-label { display: block; font-size: 14px; font-weight: 600; color: var(--text-main); margin-bottom: 10px; }
+        input[type="text"], input[type="password"] {
+            width: 100%; padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border);
+            color: var(--text-main); border-radius: 15px;
+            font-size: 16px; font-weight: 500; transition: all 0.3s;
+        }
+        input:focus {
+            outline: none; border-color: var(--accent-cyan);
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
+            background: rgba(255, 255, 255, 0.1); transform: translateY(-2px);
+        }
+        .btn {
+            width: 100%; padding: 18px; border: none; border-radius: 15px;
+            font-size: 18px; font-weight: 700; cursor: pointer;
+            transition: all 0.3s; position: relative; overflow: hidden;
+        }
+        .btn-primary { background: var(--gradient-primary); color: white; box-shadow: 0 8px 25px var(--shadow-cyan); }
+        .btn-primary:hover { transform: translateY(-3px); filter: brightness(1.1); }
+        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        
+        .loading { display: none; text-align: center; padding: 30px 0; }
+        .loading.show { display: block; }
+        .spinner {
+            width: 50px; height: 50px; border: 4px solid rgba(6, 182, 212, 0.2);
+            border-top-color: var(--accent-cyan); border-radius: 50%;
+            animation: spin 1s linear infinite; margin: 0 auto 15px;
+        }
+        
+        .result {
+            display: none; padding: 25px; border-radius: 15px; margin-top: 25px;
+            background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border);
+        }
+        .result.show { display: block; }
+        .result.success { background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3); }
+        .result.error { background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); }
+        .result-title { font-size: 22px; font-weight: 700; text-align: center; margin-bottom: 12px; }
+        .result.success .result-title { color: #4ade80; }
+        .result.error .result-title { color: #f87171; }
+        .result-message { font-size: 15px; text-align: center; color: var(--text-sub); }
+        .result-details {
+            margin-top: 15px; padding: 15px; background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px; font-size: 14px; color: var(--text-main); border: 1px solid var(--glass-border);
+        }
+        .result-details div { margin: 5px 0; padding-left: 20px; position: relative; }
+        .result-details div::before { content: '•'; position: absolute; left: 5px; color: var(--accent-cyan); font-weight: bold; }
+        
+        .footer { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--glass-border); }
+        .footer-text { font-size: 13px; color: var(--text-sub); opacity: 0.8; }
+        .footer-link { color: var(--accent-cyan); text-decoration: none; font-weight: 600; }
+
+        /* Login Overlay */
+        .login-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 9999; transition: all 0.5s ease;
+        }
+        .login-overlay.hidden { opacity: 0; visibility: hidden; }
+        .login-box {
+            background: var(--glass-bg); backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border); border-radius: 25px;
+            padding: 40px 30px; max-width: 400px; width: 100%; text-align: center;
+            animation: scaleIn 0.5s ease-out;
+        }
+        .login-box .logo { margin: 0 auto 20px; }
+        .login-box h2 { font-size: 24px; font-weight: 700; color: var(--text-main); margin-bottom: 8px; }
+        .login-box p { color: var(--text-sub); font-size: 14px; margin-bottom: 25px; }
+        
+        .fb-btn {
+            display: inline-flex; align-items: center; gap: 10px; padding: 12px 25px;
+            background: linear-gradient(135deg, #1877f2, #0e5a8a);
+            border-radius: 12px; color: #fff; text-decoration: none;
+            font-size: 16px; font-weight: 600; margin-bottom: 20px;
+        }
+        .login-error { color: #f87171; font-size: 14px; margin-bottom: 15px; display: none; }
+        .login-error.show { display: block; }
+        
+        .fb-icon { width: 22px; height: 22px; }
+        
+        /* Snow Canvas */
+        #snowCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+    </style>
+</head>
+<body>
+    <canvas id="snowCanvas"></canvas>
+
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-box">
+            <div class="logo">
+                <img src="locketlogo.jfif" alt="Locket Logo">
+            </div>
+            <h2>🔐 Nhập Mật Khẩu</h2>
+            <p>Contact Admin:</p>
+            <a href="https://www.facebook.com/tuan.vu.257774" target="_blank" class="fb-btn">
+                <svg class="fb-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+                <span>Facebook Support</span>
+            </a>
+            <input type="password" id="loginPass" placeholder="••••••••" autocomplete="off">
+            <p class="login-error" id="loginError">Mật khẩu không đúng!</p>
+            <button class="btn btn-primary" id="loginBtn" style="width:100%">
+                <span>Login System</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="locketlogo.jfif" alt="Locket Logo">
+            </div>
+            <h1>Upgrade Locket Gold</h1>
+            <p class="subtitle">Locket Gold Update Version New 2026</p>
+        </div>
+        
+        <form id="runForm">
+            <div class="input-group">
+                <label class="input-label">Username Locket</label>
+                <input type="text" id="username" name="username" placeholder="Nhập Username Locket..." required autocomplete="off">
+            </div>
+            
+            <button type="submit" class="btn btn-primary" id="submitBtn">
+                <span>Up Locket Gold</span>
+            </button>
+        </form>
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p class="loading-text">System Processing... Please wait</p>
+        </div>
+        
+        <div class="result" id="result"></div>
+        
+        <div class="footer">
+            <p class="footer-text">© 2026 Design By <a href="#" class="footer-link">DShinee</a></p>
+        </div>
+    </div>
+
+    <script>
+        // CONFIG
+        const _p = 'DShinee1207';
+        const _k = 'VuTuan2024LocketGold!@#';
+
+        const loginOverlay = document.getElementById('loginOverlay');
+        const loginPass = document.getElementById('loginPass');
+        const loginBtn = document.getElementById('loginBtn');
+        const loginError = document.getElementById('loginError');
+        
+        // LOGIN HANDLER
+        loginBtn.addEventListener('click', checkLogin);
+        loginPass.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') checkLogin();
+        });
+        
+        function checkLogin() {
+            if (loginPass.value === _p) {
+                loginOverlay.classList.add('hidden');
+                loginError.classList.remove('show');
+            } else {
+                loginError.classList.add('show');
+                loginPass.value = '';
+                loginPass.focus();
+            }
+        }
+
+        // ANTI-DEBUG
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        if (!isMobile) {
+            document.addEventListener('keydown', function(e) {
+                if (e.keyCode === 123 || 
+                    (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) ||
+                    (e.ctrlKey && (e.keyCode === 85 || e.keyCode === 83))) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                return false;
+            });
+        }
+
+        // CRYPTO
+        function _e(s) {
+            let r = '';
+            for (let i = 0; i < s.length; i++) {
+                r += String.fromCharCode(s.charCodeAt(i) ^ _k.charCodeAt(i % _k.length));
+            }
+            return btoa(r);
+        }
+        function _d(s) {
+            const d = atob(s);
+            let r = '';
+            for (let i = 0; i < d.length; i++) {
+                r += String.fromCharCode(d.charCodeAt(i) ^ _k.charCodeAt(i % _k.length));
+            }
+            return r;
+        }
+
+        // FORM HANDLER
+        const form = document.getElementById('runForm');
+        const loading = document.getElementById('loading');
+        const result = document.getElementById('result');
+        const submitBtn = document.getElementById('submitBtn');
+        
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            if (!username) {
+                showResult(false, 'Vui lòng nhập username!');
+                return;
+            }
+            
+            submitBtn.disabled = true;
+            loading.classList.add('show');
+            result.classList.remove('show');
+            
+            try {
+                const payload = JSON.stringify({action: 'run_all', username: username, t: Date.now()});
+                
+                // CALL VERCEL PROXY
+                const response = await fetch('/api/proxy', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _d: _e(payload)
+                    })
+                });
+                
+                const res = await response.json();
+                
+                if (res.error) throw new Error(res.error);
+
+                const data = JSON.parse(_d(res._r));
+                
+                if (data.success) {
+                    showResult(true, `Thành công! Nâng cấp Locket Gold cho <strong>${data.name}</strong>`, data);
+                } else {
+                    showResult(false, data.error || 'Có lỗi xảy ra!');
+                }
+            } catch (error) {
+                showResult(false, 'Lỗi kết nối: ' + error.message);
+            } finally {
+                loading.classList.remove('show');
+                submitBtn.disabled = false;
+            }
+        });
+        
+        function showResult(success, message, data = null) {
+            result.className = 'result show ' + (success ? 'success' : 'error');
+            
+            let html = `
+                <div class="result-icon"></div>
+                <div class="result-title">${success ? 'Hoàn Thành!' : 'Thất Bại!'}</div>
+                <div class="result-message">${message}</div>
+            `;
+            
+            if (success && data) {
+                html += `
+                    <div class="result-details">
+                        <div><strong>Username:</strong> ${data.username}</div>
+                        <div><strong>Tên:</strong> ${data.name}</div>
+                        <div><strong>Thời gian:</strong> ${new Date().toLocaleString('vi-VN')}</div>
+                    </div>
+                `;
+            }
+            
+            result.innerHTML = html;
+        }
+
+        // SNOW EFFECT (DShinee Style)
+        function initSnow() {
+            const canvas = document.getElementById("snowCanvas");
+            const ctx = canvas.getContext("2d");
+            let w, h;
+            const particles = [];
+
+            const resize = () => {
+                w = window.innerWidth;
+                h = window.innerHeight;
+                canvas.width = w;
+                canvas.height = h;
+            };
+
+            class Particle {
+                constructor() { this.reset(); this.y = Math.random() * h; }
+                reset() {
+                    this.x = Math.random() * w;
+                    this.y = -10;
+                    this.speed = Math.random() * 1.5 + 0.5;
+                    this.size = Math.random() * 2 + 1;
+                    this.opacity = Math.random() * 0.5 + 0.2;
+                    this.sway = Math.random() * 0.02 - 0.01;
+                    this.angle = Math.random() * Math.PI * 2;
+                }
+                update() {
+                    this.y += this.speed;
+                    this.angle += 0.02;
+                    this.x += Math.sin(this.angle) * 0.5 + this.sway;
+                    if (this.y > h) this.reset();
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+                    ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                    ctx.fill();
+                }
+            }
+
+            window.addEventListener("resize", resize);
+            resize();
+            for (let i = 0; i < 60; i++) particles.push(new Particle());
+            function animate() {
+                ctx.clearRect(0, 0, w, h);
+                particles.forEach(p => { p.update(); p.draw(); });
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+        initSnow();
+    </script>
+</body>
+</html>
